@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['role_id', 'nama_lengkap', 'email', 'no_telepon', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -28,5 +28,35 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function aktivitasPengguna()
+    {
+        return $this->hasMany(AktivitasPengguna::class);
+    }
+
+    public function pemesanan()
+    {
+        return $this->hasMany(Pemesanan::class);
+    }
+
+    public function pembatalan()
+    {
+        return $this->hasMany(Pembatalan::class);
+    }
+
+    public function riwayatStatusPemesanan()
+    {
+        return $this->hasMany(RiwayatStatusPemesanan::class);
+    }
+
+    public function buktiPembayaranTerverifikasi()
+    {
+        return $this->hasMany(BuktiPembayaran::class, 'diverifikasi_oleh');
     }
 }
